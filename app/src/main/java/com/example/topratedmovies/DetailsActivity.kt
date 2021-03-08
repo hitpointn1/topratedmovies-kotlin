@@ -27,7 +27,6 @@ class DetailsActivity: AppCompatActivity() {
     fun OnDetailsReceive(textBody : String){
         val gson = GsonBuilder().create()
         val responseData = gson.fromJson<MovieDetailsById>(textBody, MovieDetailsById::class.java)
-        Log.d("MyLog", responseData.toString())
 
         runOnUiThread {
             pbTopRatedMoviesDetails.visibility = View.INVISIBLE

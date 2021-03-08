@@ -6,14 +6,14 @@ import java.io.IOException
 
 abstract class BaseService {
     protected abstract var ApiUrl: String
-    protected var ApiKey: String = "d43db2bf70606b63fc7e5ddd111e6bfa"
+    protected var ApiKey: String = "**"
     protected abstract var ApiLanguage: String
 
     protected fun CallApi(params: ArrayList<String>, onSuccess: (text: String) -> Any, getId: Long? = null) {
         params.add("api_key=$ApiKey")
         params.add(ApiLanguage)
         if (getId != null){
-            ApiUrl+=getId
+            ApiUrl+= getId
         }
         val endpoint = ApiUrl + params.joinToString( separator = "&", prefix = "?")
         val request = Request.Builder().url(endpoint).build()

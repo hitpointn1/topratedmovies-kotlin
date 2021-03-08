@@ -38,7 +38,6 @@ class TopRatedMoviesAdapter(
             Log.d("MyLog", "Item ID is ${currentMovie.id}")
             val intent = Intent(holder.itemView.context, DetailsActivity::class.java)
             intent.putExtra("id", currentMovie.id)
-            Log.d("MyLog", "Item ID is ${intent.getLongExtra("id", 550)}")
             startActivity(holder.itemView.context, intent, null)
         }
     }
