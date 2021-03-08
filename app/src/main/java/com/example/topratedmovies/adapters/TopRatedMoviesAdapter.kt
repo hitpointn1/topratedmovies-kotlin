@@ -1,5 +1,7 @@
 package com.example.topratedmovies.adapters
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,17 +27,21 @@ class TopRatedMoviesAdapter(
 
     override fun getItemCount() = movies.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: TopRatedMoviesViewHolder, position: Int) {
-        var currentMovie = movies[position];
-        holder.itemView.rvMoviePosition.text = (position + 1).toString() + '.';
-        holder.itemView.rvMovieTitle.text = currentMovie.title;
+        val currentMovie = movies[position]
+        holder.itemView.rvMoviePosition.text = "${position + 1}."
+        holder.itemView.rvMovieTitle.text = currentMovie.title
         holder.itemView.setOnClickListener {
-            Log.d("MyLog", "Position is $position")
+            Log.d("MyLog", "Item ID is ${currentMovie.id}")
+            //val intent = Intent(holder.itemView.context, NextActivity::class.java)
+            //intent.putExtra("id", currentMovie.id)
+            //startActivity(intent)
         }
     }
 
-    fun setMovies(movies: List<Movie>) {
-        this.movies = movies.toMutableList()
+    fun appendMovies(movies: List<Movie>) {
+        this.movies.addAll(movies)
         notifyDataSetChanged()
     }
 }
