@@ -6,7 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.topratedmovies.DetailsActivity
 import com.example.topratedmovies.R
 import com.example.topratedmovies.models.Movie
 import kotlinx.android.synthetic.main.item_movie.view.*
@@ -34,9 +36,9 @@ class TopRatedMoviesAdapter(
         holder.itemView.rvMovieTitle.text = currentMovie.title
         holder.itemView.setOnClickListener {
             Log.d("MyLog", "Item ID is ${currentMovie.id}")
-            //val intent = Intent(holder.itemView.context, NextActivity::class.java)
-            //intent.putExtra("id", currentMovie.id)
-            //startActivity(intent)
+            val intent = Intent(holder.itemView.context, DetailsActivity::class.java)
+            intent.putExtra("id", currentMovie.id)
+            startActivity(holder.itemView.context, intent, null)
         }
     }
 
