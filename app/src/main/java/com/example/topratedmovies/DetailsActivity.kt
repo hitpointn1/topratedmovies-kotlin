@@ -2,11 +2,9 @@ package com.example.topratedmovies
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.topratedmovies.adapters.TopRatedMoviesAdapter
 import com.example.topratedmovies.models.MovieDetailsById
 import com.example.topratedmovies.services.DetailsActivityService
 import com.google.gson.GsonBuilder
@@ -20,7 +18,20 @@ class DetailsActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
-        detailsActivityService.GetMovieDetailsById(getIntent().getLongExtra("id", 550), ::OnDetailsReceive)
+        detailsActivityService.GetMovieDetailsById(getIntent().getLongExtra("id", 550), ::OnDetailsReceive, ::onTimeout)
+    }
+
+    private fun onTimeout() {
+        runOnUiThread {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Error in the application")
+                    .setMessage("Timeout!")
+                    .setPositiveButton("Got it") {
+                        dialog, id ->  dialog.cancel()
+                        pbTopRatedMovies.visibility = View.INVISIBLE
+                    }
+            builder.create().show()
+        }
     }
 
     @SuppressLint("SetTextI18n")
