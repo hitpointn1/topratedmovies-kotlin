@@ -2,6 +2,8 @@ package com.example.topratedmovies
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.topratedmovies.adapters.TopRatedMoviesAdapter
@@ -18,10 +20,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainActivityService.GetTopRatedFilms(::OnMoviesReceive)
+        mainActivityService.GetTopRatedFilms(::onMoviesReceive, ::onTimeout)
     }
 
-    fun OnMoviesReceive(bodyText: String) {
+    private fun onTimeout() {
+        runOnUiThread {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Error in the application")
+                    .setMessage("Timeout!")
+                    .setPositiveButton("Got it") {
+                        dialog, id ->
+                            dialog.cancel()
+                            pbTopRatedMovies.visibility = View.INVISIBLE
+                    }
+            builder.create().show()
+        }
+    }
+
+    private fun onMoviesReceive(bodyText: String) {
         val self = this;
         val gson = GsonBuilder().create()
         val responseData = gson.fromJson<TopRatedMoviesResponse>(bodyText, TopRatedMoviesResponse::class.java)
